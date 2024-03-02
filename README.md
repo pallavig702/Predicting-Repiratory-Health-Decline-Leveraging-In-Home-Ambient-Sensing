@@ -10,7 +10,7 @@ Data Source: Americare aging in place facilities hrdraulic bed sensor data
 
 
 ### (1) Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
-Scripts to Run: <br>
+Scripts to Run: Run_FeatureExtractor.py
 
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/Data_preprocessing.png)
 ## (2) Building Semi - Supervised ML model
