@@ -37,7 +37,6 @@ from ExtractFeatures import CleanNoise
 
 ##### 5 Extract Features from Respiration Component #####
 sys.path.append('restlessness/')
-sys.path
 from boyusu_restlessness_new_sub_function import boyusu_restlessness_func
 from restlessness import determine_restlessness
 
