@@ -196,5 +196,7 @@ def CleanNoise(Sigdata,MACRes,FPeaks,TIME_WINDOW,ResID,StartEndPath,ResultDir,Re
     Features_Cluster_Cols = ["Start_End","NAsign",'Restlessness3Sec','Restlessness2Sec','Restlessness1Sec','Ru_RMSSD','Ru_mDI','Ru_MADI','Ru_RespRate','Ru_SD_RR','Ru_RMDA','Ru_RMI','Ru_A_RMSi', 'Ru_A_RMSe', 'Ru_RMDA_RMS','A_Mean_i', 'A_Mean_e','ht_Mean_av','ht_Mean_max','ht_RMS_av','ht_RMS_max', 'A_inter_mean', 'A_inter_RMS', 'RespRateFromNewPeaks']
     FeaturesCluster=pd.DataFrame(Features_Cluster,columns=Features_Cluster_Cols)
     FeaturesCluster.to_csv(Features_Cluster_file,index=False)
-    
-    return(dfx)
+
+    return()
+    #return(dfx)
+                   
