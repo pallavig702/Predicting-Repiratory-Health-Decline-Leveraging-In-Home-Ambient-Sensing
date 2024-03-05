@@ -55,15 +55,15 @@ for ids in Res_ids:
     print(ids, pd.read_csv(EHRpath+str(ids),index_col=None,header=None)[0].to_list())
     Res[ids]=pd.read_csv(EHRpath+str(ids),index_col=None,header=None)[0].to_list()
 
-############################################################################################
-############## LOOPING THROUGH EACH ID and ITS DATA and PROCESS IN BLOCKS OF 2 HRS #########
-############################################################################################
+#####################################################################################################
+################ LOOPING THROUGH EACH ID and ITS DATA and PROCESS IN BLOCKS OF 2 HRS ################
+#####################################################################################################
 for each in Res_ids:
     values=Res[each]
     table="sensor.bed_raw_"+str(each)+"_only"
-    #########################################################################################
-    #### LOOPING THROUGH EACH ID, EACH DATE and ITS DATA and PROCESS IN BLOCKS OF 2 HRS #####
-    ########################################################################################
+    #####################################################################################################
+    ########## LOOPING THROUGH EACH ID, EACH DATE and ITS DATA and PROCESS IN BLOCKS OF 2 HRS ###########
+    #####################################################################################################
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Starting ID:  ", each,"   %%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     for each_date in values:
         print("######################### Beginning Date:  ", each,"   ", each_date,"   #########################")
@@ -85,18 +85,18 @@ for each in Res_ids:
         TIME_WINDOW = 60 
         print(duration_in_s,TIME_WINDOW_BATCH)
         
-        ####################################################################################
-        ########################### RESULT FOLDER PATH #####################################
-        ####################################################################################
+        #####################################################################################################
+        ################################### RESULT FOLDER PATH ##############################################
+        #####################################################################################################
         Path = "/home/pg3fy/jupyter/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/RESULTS_FROM_CLEANED_SCRIPT/"
         if (duration_in_s > TIME_WINDOW_BATCH):
             i=Start
             while(i<End):
                 Sub_End=pd.to_datetime(i + pd.to_timedelta(TIME_WINDOW_BATCH, unit='s'))
                 
-                ###############################################################################
-                ##### Get data from POSTGRES, preprocess, clean and Generate Features #########
-                ###############################################################################
+                #####################################################################################################
+                ##### Provide Specifics to pull data from POSTGRES, preprocess, clean and Generate Features #########
+                #####################################################################################################
                 result=RunData(i,Sub_End,Res_ID,table,Start_End_Directory,TIME_WINDOW,Path)
                 
                 ##### Checking for empty data retrieved from postgres #####
@@ -107,7 +107,8 @@ for each in Res_ids:
                     i=Sub_End
                     time.sleep(2)    
         else:
-            result=RunData(Start,End,Res_ID,table,Start_End_Directory,TIME_WINDOW,Path)
+            #result=RunData(Start,End,Res_ID,table,Start_End_Directory,TIME_WINDOW,Path)
+            RunData(Start,End,Res_ID,table,Start_End_Directory,TIME_WINDOW,Path)
         file1.write(str(Start)+"\n")
         
         print("######################### Done Date:  ",each,"  ",each_date,"   #########################")
