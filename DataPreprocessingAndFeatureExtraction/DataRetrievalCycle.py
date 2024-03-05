@@ -138,5 +138,7 @@ def RunData(Start,End,Res_ID,table,StartEndPath,TIME_WINDOW,ResultFolderPath):
     #############################################################################################
     ########### STEP 7: CALL FEATURE EXTRACTION, LABEL NOISY WINDOWS AND PRINT FEATURES  ########
     #############################################################################################
-    WindowWiseData=CleanNoise(result,Res,Peaks,TIME_WINDOW,Res_ID,StartEndPath,ResultFolderPath,Restlessness)
-    return(WindowWiseData)
+    #WindowWiseData=CleanNoise(result,Res,Peaks,TIME_WINDOW,Res_ID,StartEndPath,ResultFolderPath,Restlessness)
+    #return(WindowWiseData)
+    CleanNoise(result,Res,Peaks,TIME_WINDOW,Res_ID,StartEndPath,ResultFolderPath,Restlessness)
+    return()
