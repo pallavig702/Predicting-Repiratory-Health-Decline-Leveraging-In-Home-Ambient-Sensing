@@ -5,11 +5,10 @@ This is divided into three main steps:<br>
 (2) Data Mining using BIRCH<br>
 (3) Build predictive model (Random Forest) 
 
-Data Source: Americare aging in place facilities hrdraulic bed sensor data
-![test](https://scx1.b-cdn.net/csz/news/800a/2016/radarbedsens.jpg)
+## Data Source: Americare aging in place facilities hrdraulic bed sensor data
+![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
 
-
-### (1) Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
+## (1) Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
 Scripts to Run: Run_FeatureExtractor.py
 
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/Data_preprocessing.png)
@@ -19,6 +18,6 @@ Scripts to Run: Run_FeatureExtractor.py
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/ModelBuilding.png)
 Scripts to Run:
 
-## (3) Application - Predictions of respiratory health decline in older adults
+## (3) Application - Predictions of respiratory health decline in older adults in Americare aging-in-place facilities by leveraging in-home sensor health monitoring framework.
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/FuturePredictions.png)
 Scripts to Run:
