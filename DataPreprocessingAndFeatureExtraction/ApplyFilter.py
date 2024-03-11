@@ -1,7 +1,6 @@
 ####################################################################################
 #### This package contains the filters applied to composite bed sensor signal ######
 ####################################################################################
-
 import random
 import numpy as np
 import pandas as pd
