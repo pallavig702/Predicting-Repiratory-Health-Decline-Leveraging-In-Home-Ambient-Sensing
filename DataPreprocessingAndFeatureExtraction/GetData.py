@@ -2,8 +2,6 @@
 ######### This package mainly was used to extract Sensor data Stored at Postgres Db ####
 ######### All the processing begins after data is extracted from this package ##########
 ########################################################################################
-
-
 import os
 import random
 import datetime
@@ -18,7 +16,6 @@ from scipy.signal import butter, filtfilt
 ########################################################################################
 ###################### Access POSTGRES DB (Cedentials) #################################
 ########################################################################################
-
 postgres_credentials = {
     'user': 'ecowner',
     'password': 'Jamal.s',
