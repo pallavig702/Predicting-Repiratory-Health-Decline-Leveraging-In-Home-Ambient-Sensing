@@ -4,10 +4,10 @@
 #Purpose: Noise Detection
 #Input - Signal Dataframe with timestamps
 #Returning a dataframe containing below mentioned columns
-    # resp_pvs contains: Contains the values -1 (representing valleys), 1 (representing peaks), Nan (noise), -0.33(Apnea peaks) and 0.33 (hypopnea peaks)
-    #'resp_pv_vals':contains the signal values for each of the valley peak apnea peaks etc.
-    #'resp_pv_hghts': Contains the heights of the peaks calculated
-    #'resp_pv_dt_IE': time stamps corresponding to each of the peak, valley etc.
+## resp_pvs contains: Contains the values -1 (representing valleys), 1 (representing peaks), Nan (noise), -0.33(Apnea peaks) and 0.33 (hypopnea peaks)
+##'resp_pv_vals':contains the signal values for each of the valley peak apnea peaks etc.
+##'resp_pv_hghts': Contains the heights of the peaks calculated
+##'resp_pv_dt_IE': time stamps corresponding to each of the peak, valley etc.
 
 import math
 import numpy as np
