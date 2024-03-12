@@ -12,11 +12,9 @@ from scipy.signal import find_peaks
 from scipy.signal import find_peaks
 
 def Find_Peaks(df,ColName):
-    
     resp_dt=df['TimeStamp'].tolist()
     resp_sig = df[ColName].tolist()
-    
-    
+
     ######################################################################################
     ################################# Initializations ####################################
     ######################################################################################
@@ -46,10 +44,8 @@ def Find_Peaks(df,ColName):
             
         resp_pv_vals.append(resp_sig[index[i]])
         resp_pv_dt_IE.append(resp_dt[index[i]])
-        
         resp_pvs.append(1)
         resp_pv_hghts.append(0)
-        
         INDEX.append(index[i])
         
         #Valleys
@@ -74,8 +70,7 @@ def Find_Peaks(df,ColName):
                 resp_pv_vals.append(seg_valley_val)
                 resp_pv_dt_IE.append(resp_dt[seg_valley_index])
                 resp_pvs.append(-1)
-                resp_pv_hghts.append(0)
-                
+                resp_pv_hghts.append(0) 
                 i=j
                 continue
                 
