@@ -1,6 +1,13 @@
 ########################################################################################
-################# Citations: doi #############################
+################# Citations: DOI: 10.1109/MeMeA52024.2021.9478677 ######################
 ########################################################################################
+#Purpose: Noise Detection
+#Input - Signal Dataframe with timestamps
+#Returning a dataframe containing below mentioned columns
+    # resp_pvs contains: Contains the values -1 (representing valleys), 1 (representing peaks), Nan (noise), -0.33(Apnea peaks) and 0.33 (hypopnea peaks)
+    #'resp_pv_vals':contains the signal values for each of the valley peak apnea peaks etc.
+    #'resp_pv_hghts': Contains the heights of the peaks calculated
+    #'resp_pv_dt_IE': time stamps corresponding to each of the peak, valley etc.
 
 import math
 import numpy as np
@@ -122,7 +129,7 @@ def MAC2(df,T,ColName):
             resp_pv_vals.append(seg_valley_val)
             
     ########################################################################################
-    ################################# #STEP 7: PREAMBLE ####################################
+    ################################# #STEP 7: Finding Heights of peaks ####################
     ########################################################################################
     #at this point, we know the first and last element of the sorted vectors are peaks
     #calculate peak heights
@@ -134,41 +141,33 @@ def MAC2(df,T,ColName):
     #every Even peak [Odd in matlab because of indexing] up to (but not including) the 
     #last is surrounded by two deep valleys
 
-    #NOT ANY MORE --> find the max of the two distance.
-
-    #STEP 7: Now measuring the height of the peakvabove the moving average curve (MAC).
-    #every even number is a valley --- set height to 0  
-    #print(len(resp_pv_vals),len(MAC),len(resp_pv_idx),len(resp_pv_vals))
+    ########################################################################################
+    ### STEP 8: Now measuring the height of the peakvabove the moving average curve (MAC).##
+    ########################################################################################
+    #every valley --- height set to 0 
     j=1
     for i in range(1,(len(resp_pv_vals)-1)):
         if (i%2 != 0):
-        # if i is even, we have a valley
-        # set height to 0;
+        # if i is even, we have a valley set height to 0;
             resp_pv_hghts.append(0)
         else:
             # Changing definition of peak height to be relative to the MAC.
             # otherwise, find max of distance to each valley
-            # resp_pv_hghts(i) = max([resp_pv_vals(i) - resp_pv_vals(i-1),...
-            # resp_pv_vals(i) - resp_pv_vals(i+1)]);
             resp_pv_hghts.append(round((resp_pv_vals[i] - MAC[resp_pv_idx[j]]),2))
             j=j+1
     
     #last element is a peak
     i = len(resp_pv_vals)-1
-    #resp_pv_hghts(i) = resp_pv_vals(i) - resp_pv_vals(i-1);
     resp_pv_hghts.append(round(resp_pv_vals[i] - MAC[resp_pv_idx[j]],2))
-    #resp_pv_hghts.append(round(resp_pv_vals[i] - resp_pv_vals[i+1],2))
-    # MODIFYING THIS .... NEED MORE WORK HERE
     print(len(resp_pv_hghts)-1)
     
-    
-    #STEP 8: FINDING QUANTILES To remove the noise in further steps
+    ########################################################################################
+    ########### STEP 9: FINDING QUANTILES To remove the noise in further steps. ############
+    ########################################################################################
     x=np.array(resp_pv_hghts[0:len(resp_pv_hghts):2])
     lower_quantile = np.percentile(resp_pv_hghts[0:len(resp_pv_hghts):2], 75, interpolation='midpoint') * 0.5
     upper_quantile = np.percentile(x, 75, interpolation='midpoint') * 2.5
     
-    
-    ##STEP 8:
     resp_pvs=[]
     ind=0
     for i in range(len(resp_pv_hghts)):
@@ -190,8 +189,10 @@ def MAC2(df,T,ColName):
                 
     print(">>",ind, len(resp_pv_hghts))
     
-    
-    #STEP 9: Labelling the peaks
+    ########################################################################################
+    ########################### STEP 10: Labelling the peaks. ##############################
+    ########################################################################################
+    ## Peaks labelled as 1, valleys as -1 and noise as Nan, Apnea peaks as -0.33 and hypopnea peaks as 0.33
     for i in range (len(resp_pv_hghts)):
         #lower_quantile = prctile(resp_pv_hghts[1:length(resp_pv_hghts):2], 50)* 0.75
         lower_quantile = np.percentile(resp_pv_hghts[1:len(resp_pv_hghts):2], 50, interpolation='midpoint') * 0.75
@@ -241,12 +242,9 @@ def MAC2(df,T,ColName):
          len(up_intercepts), len(down_intercepts))
     #print(resp_pvs)
     
-    """
-    d = {'resp_pvs':resp_pvs,\
-        'resp_pv_vals':resp_pv_vals,\
-         'resp_pv_hghts':resp_pv_hghts,\
-         'resp_pv_dt':resp_pv_dt}
-    """
+    ########################################################################################
+    ###################### STEP 11:Building and Returning Dataframe. #######################
+    ########################################################################################
     d = {'resp_pvs':resp_pvs,\
         'resp_pv_vals':resp_pv_vals,\
          'resp_pv_hghts':resp_pv_hghts,\
@@ -256,4 +254,3 @@ def MAC2(df,T,ColName):
     Res_df = pd.DataFrame(d)
     #display(Res_df.head())
     return(Res_df)
-    
