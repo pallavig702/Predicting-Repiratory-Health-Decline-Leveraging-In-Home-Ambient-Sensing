@@ -1,21 +1,12 @@
-import numpy as np
-import statistics
-import pandas as pd
-#from math import nan
-#import statsmodels as sm
-#from patsy import dmatrices
-#from statsmodels.sandbox.tsa import movmean
 import math
+import statistics
+import numpy as np
+import pandas as pd
 
-#from ExtractPeakToPeakFeatures import Calculate_Breath_To_Breath_Features
-
-#Give x
 def variance(RespiratoryRate):
     mean=RespiratoryRate
     x=16
-    #n = len(data)
-    #mean = sum(data) / n
-    
+   
     deviations = (x - mean) ** 2
     variance = deviations / 1
     return variance
@@ -29,19 +20,15 @@ def stdev(RespiratoryRate):
 
 #Consider 2 peaks at a time for the caclulations
 def Calculate_B_2_B_Features(data,windowpath):
-    #print("window?????????????????",windowpath)
+    #print("window from CalculateFeaturesPerWindow script",windowpath)
     data['resp_pv_dt_IE'] = pd.to_datetime(data['resp_pv_dt_IE'])
     i=0
     Resp_Cycle=1
-    #print()
 
     r_pvs = data['resp_pvs'].to_list() # peak or valley (-1 or 1)
     r_vals = data['resp_pv_vals'].to_list() # value of peaks or valleys amplitude
     r_hts = data['resp_pv_hghts'].to_list() # heights of peaks or valleys
     r_time = data['resp_pv_dt_IE'].to_list() # time at peaks and valleys
-    
-  
-    #print("[[[[[[[[]]]]]]]]]]",len(r_pvs),len(r_vals),len(r_hts),len(r_time),r_pvs)
     
     Diff_IE=[]
     count=[]
@@ -61,11 +48,9 @@ def Calculate_B_2_B_Features(data,windowpath):
     ht_mean=[]
     A_inter=[]
     while(i<data.shape[0]-9):
-        #print(i)
-    
-        #CASE 1: Starting with a valley
-        
-        
+        ##################################################################
+        ################# CASE 1: Starting with a valley #################
+        ##################################################################
         if((r_pvs[i]==-1) and r_pvs[i+1]==1 and r_pvs[i+2]==-1 and r_pvs[i+3]==1):     
             
             #the inspiration and expiration intervals
@@ -87,9 +72,6 @@ def Calculate_B_2_B_Features(data,windowpath):
             
             Ai_inter.append(r_vals[i+3]-r_vals[i+2])
             A_inter.append(r_vals[i+3]-r_vals[i+2])
-            
-            
-            
             
             maxi_Amp=max(r_vals[i],r_vals[i+2])
             mean_Amp=np.mean([r_vals[i],r_vals[i+2]])
@@ -138,7 +120,9 @@ def Calculate_B_2_B_Features(data,windowpath):
                 #print(len(r_time),i,i+3)
                 i=i+3 #Else, Start next cycle at the peak after 2nd respiration peak
             #print(">>",Breath_to_Breath)
-        ## CASE 3: None of the above sequence was found for 2 respiration
+        ###################################################################################################
+        ################# CASE 2: None of the above sequence was found for 2 respiration #################
+        ##################################################################################################
         else:
             i=i+1
         
@@ -157,6 +141,7 @@ def Calculate_B_2_B_Features(data,windowpath):
                 i=i+2 #Else, Start next cycle at the peak after 2nd respiration
             print("CASE2",(r_time[i+2]-r_time[i]).total_seconds(), r_vals[i+2]-r_vals[i], r_hts[i+2]-r_hts[i])
         """
+        
     #d = {'Start':Start,'End':End,'I_E':I_E}
     newSD_B2B_Inter = [x for x in SD_B2B_Inter if math.isnan(x) == False]
     newAi_inter = [x for x in Ai_inter if math.isnan(x) == False]
@@ -165,22 +150,34 @@ def Calculate_B_2_B_Features(data,windowpath):
     
     newI_inter = [x for x in I_inter if math.isnan(x) == False]
     newE_inter = [x for x in E_inter if math.isnan(x) == False]
-    #Feature 1 - RMSSD - The square root of the mean of the squares of the successive difference of breath-to-breath intervals
+    ##########################################################################################################################
+    # FEATURE 1: RMSSD - The square root of the mean of the squares of the successive difference of breath-to-breath intervals
+    ##########################################################################################################################
     RMSSD=np.sqrt(np.mean(np.square(newSD_B2B_Inter)))
+
     
-    #Feature 2 - mDI - Mean of successive differences of breath-to-breath intervals
+    ##########################################################################################################################
+    ################### FEATURE 2 - mDI - Mean of successive differences of breath-to-breath intervals #######################
+    ##########################################################################################################################
     mDI=np.mean(newSD_B2B_Inter)
-               
-    #Feature 3 -  MADI - Maximum absolute differences of breath-to-breath intervals
+
+    
+    ##########################################################################################################################
+    #################### FEATURE 3 -  MADI - Maximum absolute differences of breath-to-breath intervals ######################
+    ##########################################################################################################################
     if len(newSD_B2B_Inter)==0:
         MADI=math.nan
     else:
         MADI=max(newSD_B2B_Inter)
-    
-    #Feature 4 - Respiratory Rate #My: Standard deviation from Normal RR15
+
+    ##########################################################################################################################
+    ######################### FEATURE 4 - Respiratory Rate #My: Standard deviation from Normal RR15 ##########################
+    ##########################################################################################################################
     SD_RR=stdev(r_pvs.count(1))
-               
-    #Feature 5 - RMDA - The ratio of the mean of differences between the amplitudes of expiration and inspiration
+
+    ##########################################################################################################################
+    ##### FEATURE 5 - RMDA - The ratio of the mean of differences between the amplitudes of expiration and inspiration #######
+    ##########################################################################################################################
     A_Mi=np.mean(newAi_inter)
     A_Me=np.mean(newAe_inter)
     RMDA = A_Mi/A_Me
