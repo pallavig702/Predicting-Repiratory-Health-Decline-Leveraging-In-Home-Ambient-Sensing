@@ -19,7 +19,7 @@ This is divided into three main steps:<br>
 #### * Build predictive model (using code book from previous step) to make future predictions in older adults living in Americare aging-in-place facilities.<br>
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/ModelBuilding.png)
 Scripts to Run:
-
+https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT).ipynb
 ## (3) Application - Predictions of respiratory health decline in older adults in Americare aging-in-place facilities by leveraging in-home sensor health monitoring framework.
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/FuturePredictions.png)
 Scripts to Run:
