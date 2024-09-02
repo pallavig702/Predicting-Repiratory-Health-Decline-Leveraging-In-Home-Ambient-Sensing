@@ -1,0 +1,787 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
+import os
+import pandas as pd
+from glob import glob
+import numpy as np
+import pandas as pd
+from scipy import stats
+from matplotlib.backends.backend_pdf import PdfPages
+
+from HouseKeepingFunctions import CheckFileExistence
+
+def Specific_Names(all_names,ext,FileNameSuffix):
+    #WL = ['absail', 'rehab', 'dolphin']
+    #PW="IE_Ratio.csv"
+    filte=[]
+    for i in all_names:
+        
+        if i.endswith(FileNameSuffix):
+            #print(i)
+            filte.append(i)
+        #print(i)
+    return(filte)
+    
+def Get_All_csv_pathnamesWithPatterns(PATH,filename_pattern,FileSuffix):
+    EXT = "*.csv"
+    all_csv_files = [file
+                 for path, subdir, files in os.walk(PATH)
+                 for file in glob(os.path.join(path, EXT))]
+    #for csvfile in all_csv_files:
+    #    print(csvfile)
+    
+    return(Specific_Names(all_csv_files,filename_pattern,FileSuffix))
+
+def Get_All_csv_pathnames(PATH):
+    EXT = "*.csv"
+    all_csv_files = [file
+                 for path, subdir, files in os.walk(PATH)
+                 for file in glob(os.path.join(path, EXT))]
+    #for csvfile in all_csv_files:
+    #    print(csvfile)
+    
+    return(all_csv_files)
+
+def Get_All_png_pathnames(PATH):
+    EXT = "*.png"
+    all_csv_files = [file
+                 for path, subdir, files in os.walk(PATH)
+                 for file in glob(os.path.join(path, EXT))]
+    #for csvfile in all_csv_files:
+    #    print(csvfile)
+    
+    return(all_csv_files)
+
+
+# In[2]:
+
+
+def ProcessResultFilesForPyramids(filename,ID):
+    #print(filename)
+    df = pd.read_csv(filename, index_col=None, header=0)
+    #display(df.head())
+    #df['Dates'] = pd.to_datetime(df['first']).dt.date
+    #df['Time'] = pd.to_datetime(df['first']).dt.time
+    #print("???",df.shape)
+    #print(GetData.head())
+    if(df.shape[0]>1):
+        return(df)
+    else:
+        return()
+
+
+# In[3]:
+
+
+def PlotByDate(df,numDates):
+    import matplotlib.pyplot as plt
+    #fig = plt.figure()
+    fig = plt.figure(figsize=(12,4))
+    for i in range(numDates):
+        plt.subplot(1, numDates, i+1)
+        plt.plot(plot_x[plotIndex])
+        ax = fig.add_axes([0,0,1,1])
+        langs = ['C', 'C++', 'Java', 'Python', 'PHP']
+        students = [23,17,35,29,12]
+        plt.bar(langs,students)
+        plt.show()
+
+
+# In[4]:
+
+
+def SubsetDataShannon(df):
+    #display(df.head())
+    
+    print(df.shape)
+    df['SDates'] = pd.to_datetime(df['Start']).dt.date
+    df['STime'] = pd.to_datetime(df['Start']).dt.time
+    
+    df['EDates'] = pd.to_datetime(df['End']).dt.date
+    df['ETime'] = pd.to_datetime(df['End']).dt.time
+    
+    df=df.drop(columns=['STime','ETime','SDates'])
+    return(df)
+
+
+# In[5]:
+
+
+def GetUnique_Dates(all_files):
+    Uni_dates=[]
+    for eachfile in all_files:
+        if "Combined" in eachfile:
+            continue
+        elif "Plot" in eachfile:
+            continue
+        else:
+            fname=os.path.basename(eachfile)
+            if not fname.split(" ")[0] in Uni_dates:
+                Uni_dates.append(fname.split(" ")[0])
+                #print(fname.split(" ")[0])
+            #ProcessResultFilesForPyramids(eachfile,i)
+    return(Uni_dates)
+
+
+# In[6]:
+
+
+def nested_dict(n, type):
+    if n == 1:
+        return defaultdict(type)
+    else:
+        return defaultdict(lambda: nested_dict(n-1, type))
+
+
+# In[7]:
+
+
+def Get_Single_Way_Counted_with_CutOff(df,FEATURE,THRESHOLD,Apply):
+    test=df[FEATURE].to_list()
+    if Apply == "LessThan":
+        cutOff_Count=(len(list(pos for pos in test if pos <= THRESHOLD))/df.shape[0])*100
+    elif Apply == "GreaterThan":
+        cutOff_Count=(len(list(pos for pos in test if pos >= THRESHOLD))/df.shape[0])*100
+    elif Apply == "Equal":
+        cutOff_Count=(len(list(pos for pos in test if pos == THRESHOLD))/df.shape[0])*100
+    return(cutOff_Count)
+
+
+# In[8]:
+
+
+#Specifically for comparision of p_Shannon and v_Shannon
+def Get_Both_Way_Counted_with_CutOff(df,F1,F2,THRESHOLD,Apply):
+    
+    f1=df[F1].to_list()
+    f2=df[F2].to_list()
+    
+    #If both are less than threshold
+    if Apply == "LessThan":
+        count=0
+        for i in range(df.shape[0]):
+            if ((f1[i]<THRESHOLD) and (f2[i]<THRESHOLD)):
+                count=count+1
+        
+        CutOff_count=(count/df.shape[0])*100
+        return(CutOff_count)
+    ##If both are Greater than threshold
+    elif Apply == "GreaterThan":
+        count=0
+        for i in range(df.shape[0]):
+            if ((f1[i]>THRESHOLD) and (f2[i]>THRESHOLD)):
+                count=count+1    
+        CutOff_count=(count/df.shape[0])*100
+        return(CutOff_count)
+    ##If Both are equal to threshold=0.0
+    elif Apply == "Equal":
+        count=0
+        for i in range(df.shape[0]):
+            if ((f1[i]==THRESHOLD) and (f2[i]==THRESHOLD)):
+                count=count+1    
+        CutOff_count=(count/df.shape[0])*100
+        return(CutOff_count)
+    
+    #If F1 is less than threshold and F2==0
+    elif Apply == "F1LessThan":
+        count=0
+        for i in range(df.shape[0]):
+            if ((f1[i]<THRESHOLD) and (f2[i]==0.0)):
+                count=count+1
+        
+        CutOff_count=(count/df.shape[0])*100
+        return(CutOff_count)
+    #If F2 is less than threshold and F2==0
+    elif Apply == "F2LessThan":
+        count=0
+        for i in range(df.shape[0]):
+            if ((f1[i]==0.0) and (f2[i]<THRESHOLD)):
+                count=count+1
+        
+        CutOff_count=(count/df.shape[0])*100
+        return(CutOff_count)
+    
+    
+    #If F1 is less than threshold and F2>0
+    elif Apply == "F1LessThanAndOtherGT":
+        count=0
+        for i in range(df.shape[0]):
+            if ((f1[i]<THRESHOLD) and (f2[i]>0.0) and (f2[i]>THRESHOLD)):
+                count=count+1
+        
+        CutOff_count=(count/df.shape[0])*100
+        return(CutOff_count)
+    
+    #If F1 is less than threshold and F2>0
+    elif Apply == "F2LessThanAndOtherGT":
+        count=0
+        for i in range(df.shape[0]):
+            if ((f1[i]>0.0) and (f2[i]<THRESHOLD) and (f1[i]>THRESHOLD)):
+                count=count+1
+        
+        CutOff_count=(count/df.shape[0])*100
+        return(CutOff_count)
+    
+    'LessThan', 'Equal', 'F1LessThan', 'F2LessThan', 'F1LessThanAndOtherGT','F2LessThanAndOtherGT'
+
+
+# In[9]:
+
+
+def GiveFeaturesToBeCountedAndCutOff(df,FeatureDict):
+    FeatureCounts=dict()
+    for Feature,Threshold in FeatureDict.items():
+        test=df[Feature].to_list()
+        print(Threshold,Threshold[0],Threshold[1])
+        #cutOff_Count=(len(list(pos for pos in test if pos <= THRESHOLD))/df.shape[0])*100
+        
+        FeatureCounts[Feature]=Get_Single_Way_Counted_with_CutOff(df,Feature,Threshold[0],Threshold[1])
+    return(FeatureCounts)
+
+
+# In[10]:
+
+
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+#from sklearn.datasets.samples_generator import make_blobs
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+
+def TestKmeans(RangeMin,RangeMax,X):
+    wcss = []
+    for i in range(RangeMin, RangeMax):
+        kmeans = KMeans(n_clusters=i, init='k-means++', max_iter=300, n_init=10, random_state=0)
+        kmeans.fit(X)
+        wcss.append(kmeans.inertia_)
+    plt.plot(range(RangeMin, RangeMax), wcss)
+    plt.title('Elbow Method')
+    plt.xlabel('Number of clusters')
+    plt.ylabel('WCSS')
+    plt.show()
+
+def ApplyKmeans(X,clust):
+    kmeans = KMeans(n_clusters=clust, init='k-means++', max_iter=300, n_init=10, random_state=0)
+    kmeans.fit_predict(X)
+    labels = kmeans.labels_
+    ## Format results as a DataFrame
+    #results = pandas.DataFrame([dataset.index,labels]).T
+    plt.scatter(X.iloc[:,0],X.iloc[:,1], c=kmeans.labels_,cmap='rainbow') 
+    plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='yellow', label = 'Centroids')
+    plt.title('Clusters Distribution')
+    plt.xlabel('Clusters')
+    plt.ylabel('Score')
+    plt.show()
+    return(kmeans)
+
+
+# In[11]:
+
+
+import os
+def RemoveAllFilesInADirectory(DLpath):
+    for f in Get_All_png_pathnames(DLpath):
+        #print("delete::::::::::",f)
+        os.remove(f)
+        
+
+
+# In[12]:
+
+
+import shutil
+def CopyFiles(Indexes,ImagesPath,labels):
+    #GET UNIQUE LABELS
+    Unique_labels=np.unique(labels)
+    
+    #fOR EACH LABEL
+    for i in range(len(labels)):
+        getName=[ele for ele in ImagesPath if ele.endswith(Indexes[i]+".png")]
+    
+        dirName=os.path.dirname(getName[0])
+        fileName=os.path.basename(getName[0])
+        print(">>>",dirName,"####",fileName,">>>") 
+        #DELETING FILES IN THE PATH OF LABEL
+        if(i==1):
+            for labelNum in Unique_labels:
+                deletePath=dirName+"/"+str(labelNum)+"/"
+                print("DELETE   :", deletePath)
+                RemoveAllFilesInADirectory(deletePath)
+        
+        #Copying Files for each cluster
+        if os.path.isdir(dirName+"/"+str(labels[i])): 
+            shutil.copy2(getName[0],dirName+"/"+str(labels[i])+"/"+fileName)
+        else:
+            os.mkdir(dirName+"/"+str(labels[i]))
+            shutil.copy2(getName[0],dirName+"/"+str(labels[i])+"/"+fileName)
+
+        cwd = os.getcwd()
+        os.chdir(dirName)       
+        for lab in Unique_labels:
+            #cmd1='cd dirName'
+            cmd2='zip -r '+str(lab)+'.zip '+str(lab)
+            os.system(cmd2)
+        os.chdir(cwd)   
+# In[50]:
+
+
+def getVariantFeatures(df_dataa):
+   
+    Features_Cluster_Cols=['RMSSD_B2B', 'mDi_B2B', 'RMSSD_B2B_diffInAmplitudes',                       'mDi_B2B_diffInAmplitudes','Max_B2B_diffInAmplitudes', 'Min_B2B_diffInAmplitudes',                       'RMSSD_B2B_diffInHeights', 'mDi_B2B_diffInHeights','Max_B2B_diffInHeights',
+                       'Min_B2B_diffInHeights','Max_B2B', 'Min_B2B']#,'Normal_IE_Ratio_PerMin','Var_I_only','Var_E_only', 'Var_I_by_Total', 'Var_Total_IE',\
+                       #'Var_Diff_IE','percentageIE', 'Resp_Rate_per_minute', 'Ratio_MD_Amp',\
+                       #'Ratio_RMSD_Amp', 'Diff_Max_Min_I', 'Diff_Max_Min_E', 'RMI']#, 'Normal']
+    """ 
+    Features_Cluster_Cols=['Max_B2B', 'Min_B2B','Normal_IE_Ratio_PerMin','Var_I_only','Var_E_only', 'Var_I_by_Total', 'Var_Total_IE',\
+                       'Var_Diff_IE','percentageIE', 'Resp_Rate_per_minute', 'Ratio_MD_Amp',\
+                       'Ratio_RMSD_Amp', 'Diff_Max_Min_I', 'Diff_Max_Min_E', 'RMI']#, 'Normal']
+    
+    Features_Cluster_Cols=['Max_B2B_diffInAmplitudes', 'Min_B2B_diffInAmplitudes',\
+                       'Max_B2B_diffInHeights','Min_B2B_diffInHeights','percentageIE',\
+                           'Resp_Rate_per_minute','Diff_Max_Min_I', 'Diff_Max_Min_E']
+    """
+    #target=df_data['Target'].to_list()
+    Index=df_dataa['Start_End'].to_list()
+    df_dataa=df_dataa.drop(columns=['Start_End'])
+
+    VariantFeatures=[]
+    for i in Features_Cluster_Cols:
+        print(i," ",df_dataa[i].var())
+        if(df_dataa[i].var()>0.3):
+            VariantFeatures.append(i)
+
+    print(len(VariantFeatures))
+    print(VariantFeatures)
+
+    df_variant = df_data[VariantFeatures]
+    print(df_variant.shape)
+    display(df_variant.head())
+    return(df_variant)
+
+
+# In[51]:
+
+
+import os
+#import img2pdf
+
+def GeneratePlotsForFeatures(df,pathOfImages,PdfFile):
+    images=[]
+    for idx, name in enumerate(df.columns):
+        print(idx,name)
+        fig = plt.figure(figsize=(15,7))
+        plt.hist(df_var[name])
+        plt.title(name)
+        #fig=group.plot(x='year', y='Value',title=str(i)).get_figure()
+
+        plt.savefig("plot{idx}.png".format(idx=idx))
+        plt.close()
+        plt.show()
+        images.append("plot"+str(idx)+".png")
+        
+        
+        
+    #path="/home/pg3fy/jupyter/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering"
+    with open(PdfFile, "wb") as f:
+        f.write(img2pdf.convert([i for i in os.listdir(pathOfImages) if i.endswith(".png")]))
+    
+    
+    for img in images:
+        os.remove(img)
+
+
+# In[52]:
+
+
+def GeneratePlotsIntoApdfForFeatures(df,PdfFile):
+    
+    pdf = PdfPages(PdfFile) 
+
+    for idx, name in enumerate(df.columns):
+        print(idx,name)
+        fig = plt.figure(figsize=(5,5)) #
+        plt.hist(df_var[name])
+        plt.title(name)
+        pdf.savefig(fig)
+        plt.cla() #New Addition
+        plt.close(fig)
+
+    pdf.close()
+
+
+# In[53]:
+
+
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+
+def printConfusionMatrixAndReport(y_test, yhat):
+    
+    print(confusion_matrix(y_test, yhat))
+    report = classification_report(y_test, yhat)
+    print(report)
+
+
+# In[54]:
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+def buildBoxPlot(df,nameofSavingFile):
+    f, ax = plt.subplots(1, 1, figsize = (8, 7))
+    boxplot = df.iloc[:,0:df.shape[1]].boxplot()
+    plt.xticks(rotation=90)
+    #plt.tight_layout() : TO FIT THE X-axis labels fitted in place so that they are 
+    #not cut when saved as files.
+    minima=int(min(df.min()))
+    maxima=int(max(df.max()))
+               
+    if (minima%10!=0):
+        while(minima%10!=0):
+               minima=minima+1
+    if (maxima%10!=0):
+        while(maxima%10!=0):
+               maxima=maxima+1
+        
+    plt.yticks(range(minima,maxima,10))
+    plt.tight_layout() 
+    plt.show()
+    if nameofSavingFile!='NoSave':
+        f.savefig(nameofSavingFile, format="png")
+
+
+# In[55]:
+
+
+def buildBoxPlotWithGroupBy(df,nameofSavingFile):
+    f, ax = plt.subplots(1, 1, figsize = (15, 10))
+    #calmap.yearplot(events, year=2015, ax=ax)
+    boxplot = df_Comb.boxplot(by='label',ax=ax)
+    plt.tight_layout()
+    plt.show()
+    f.savefig(nameofSavingFile, format="png")
+    
+
+
+# In[56]:
+
+
+def buildBoxPlotWithGroupBySeperately(df,nameofSavingFile):
+    for i in df.columns:
+        fig,ax = plt.subplots(1, 1, figsize=(8, 6))
+        boxplot = df_Comb.boxplot(column=i, by='label',ax=ax,grid=False)
+        plt.show()
+        f.savefig(nameofSavingFile, format="png")
+    
+
+
+from collections import Counter
+def UniqueOfLabel(lab):    
+    c = Counter(lab)
+    print( c.items() )
+    #print(*lab)#,len(label),len(target))
+
+
+# In[59]:
+
+def getDataFeaturesStatistics(dataForPlot,drop):
+    #dataForPlot#=df_3083#df_3054_1 #
+    if drop=="yes":
+        dataForPlot=dataForPlot.drop(columns=['ID','Index'])
+    #FeatureStats=collections.defaultdict(dict)  #dict()
+    FStats=pd.DataFrame()
+    for col in dataForPlot.columns:
+        if col=='Date':
+            continue
+        
+        for dat in np.unique(dataForPlot['Date']):
+            #print("Start",col,dat)
+            new=pd.DataFrame()
+            new=dataForPlot[dataForPlot['Date']==dat]
+            new=new.drop(columns=['Date'])
+            #FeatureStats[col]=date
+            #display(dataForPlot.head())
+            FStat=pd.DataFrame()
+            FStat=pd.DataFrame(new[col].describe()).T.reset_index()
+            #print("Done",col,dat)
+            FStat['Date']=dat
+            FStat=FStat.rename(columns={'index':'Features'})
+            #FStat['ID']=3054
+            FStats=FStats.append(FStat)
+            #display(FStats.tail())
+            #display(FStat.head())
+            #FeatureStats[col][dat]=new[col].describe().to_dict()
+            #print(new[col].describe().to_dict())}
+            
+    return(FStats)
+#print(FeatureStats)
+
+
+import seaborn as sns
+from sklearn.manifold import TSNE
+
+import seaborn as sns
+from sklearn.manifold import TSNE
+
+def CallTNSE(data, Label,titleName,date,path,alpha):#,Res_ID):
+    #Source: https://www.datatechnotes.com/2020/11/tsne-visualization-example-in-python.html
+    #Source: https://seaborn.pydata.org/generated/seaborn.scatterplot.html
+    #STEP 1: TRANSFORM DATA
+    display(data.head())
+    tsne = TSNE(n_components=2, verbose=1, random_state=123)
+    z = tsne.fit_transform(data)
+
+    #STEP 2: PROJECT MULTIDIMENSIONAL DATA IN 2D
+    df = pd.DataFrame()
+    df["y"] = Label
+    #df["id"]=Res_ID
+    df["comp-1"] = z[:,0]
+    df["comp-2"] = z[:,1]
+
+    c=Counter(Label)
+    num_clust=len(c.keys())
+    #color_dict = dict({'COPD':'brown','Non-COPD':'green'})
+    sns_plot = sns.scatterplot(x="comp-1", y="comp-2", hue=df.y.tolist(),
+                    palette=sns.color_palette("hls", num_clust),\
+                    data=df,alpha=alpha).set(title=date+" "+titleName+" T-SNE projection")
+    #palette=color_dict
+
+    #ADD NUMBERS TO PLOT
+    for label in df.y.unique():
+    # randomly sample
+        tmp = df.loc[df['y']==label].sample(1)
+        #add label to some random points per group
+        for _,row in tmp.iterrows():
+            plt.annotate(label, (row['comp-1'], row['comp-2']), size=12, weight='bold', color='k')
+     
+ 
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    #sns_plot.legend(loc='upper left', bbox_to_anchor=(1, 1), ncol=1)
+    #sns.move_legend(sns_plot, "upper left", bbox_to_anchor=(1, 1))
+    plt.savefig(path+"/"+date+"_"+titleName+".png") 
+    return()
+    
+import collections
+from plotnine.data import mpg
+from plotnine import ggplot, aes, labs, geom_point, geom_line, geom_bar, facet_grid, facet_wrap, theme
+def PlotStatsForLabelClusters(data,Label,x,yStat,colorFeature):
+    BigfStats=pd.DataFrame()
+    data['label']=Label
+    for num_lab in Counter(Label).keys():
+        label1=pd.DataFrame()
+        label1=data[data['label']==num_lab]
+        label1=label1.drop(columns=['label'])
+        fStats=pd.DataFrame()
+        fStats=getDataFeaturesStatistics(label1,"No")
+        fStats['label']=num_lab
+        BigfStats=BigfStats.append(fStats)
+        #display(BigfStats.tail(len(Counter(Label).keys()))
+
+    BigfStats=BigfStats[(BigfStats['Features']!='Ru_RespRate') & (BigfStats['Features']!='Ru_SD_RR')]
+    g = ggplot(BigfStats, aes(x=x, y=yStat, color=colorFeature,group=colorFeature)) +coord_trans(y='log10')+\
+            geom_point()+geom_line()#+ facet_wrap('Date')# + theme(axis_text_x  = element_text(angle = 70, hjust = 1)) #+
+    print(g)
+    
+
+    
+def getVaryingData(DataSel,IDofInterest,data):
+    #dateSel='2018-08-30'#'2019-10-02'#'2019-08-21' #'2020-01-15' # 3054
+    #dateSel='2019-12-05'#2020-01-05'#'2020-04-06' #2019-12-05 #3127:
+    df_3054_1=pd.DataFrame()
+    df_3054=pd.DataFrame()
+    df_3054_1=df_Comb[data['ID']==IDofInterest]
+    df_3054=df_3054_1[df_3054_1['Date']==DataSel]
+    index_3054=df_3054['Index']
+    display(df_3054.head())
+    print(np.unique(df_Comb['ID']))
+    print(np.unique(df_3054_1['ID']))
+    print(np.unique(df_3054['ID']))
+    return(df_3054)
+
+def CombineData(df1,df2):
+    df_Com=pd.DataFrame()
+    df_Com=pd.concat([df1,df2])#,df_3127])
+    #display(df_Comb1.head())
+    df_Com = df_Com.dropna(axis=0)
+    return(df_Com)
+
+'''
+import numpy as np
+from fcmeans import FCM
+def ApplyFuzzyCMenas(data,num_Clust):
+    X=data
+    fcm = FCM(n_clusters=num_Clust) # we use two cluster as an example
+    fcm.fit(X.to_numpy())
+    label=fcm.predict(data.to_numpy())
+    return(label)
+'''
+from sklearn.cluster import DBSCAN
+def ApplyDBSCAN(data,eps,radius):
+    clustering = DBSCAN(eps=eps, min_samples=radius).fit(data)
+    labelz=clustering.labels_
+    return(labelz)
+
+
+import operator
+def shuffleLabelAsPerDescRespRate(df,label):
+    dfnew=df
+    lab_df=dict()
+    new=dict()
+    dfnew['label']=label
+    for lab in np.unique(label):
+        label1=dfnew[dfnew['label']==lab]
+        lab_df[lab]=label1['Ru_RespRate'].mean()
+        mapping = {
+          lab:20+lab,  
+        }
+        label = [mapping.get(number, number) for number in label]
+    new=dict( sorted(lab_df.items(), key=operator.itemgetter(1),reverse=True))
+    num=0
+    for k,v in new.items():
+        mapping = {
+          20+k:num,  
+        }
+        label = [mapping.get(number, number) for number in label]
+        num=num+1
+    return(label)
+
+
+import collections
+from plotnine.data import mpg
+import math
+
+
+#from plotnine import ggplot, aes, labs, geom_point, geom_line, geom_bar, facet_grid, facet_wrap, theme
+from plotnine import *
+def PlotStatsForLabelClusters(data,Label,x,yStat,colorFeature,RespRateInclude,path,dating):
+    BigfStats=pd.DataFrame()
+    data['label']=Label
+    for num_lab in Counter(Label).keys():
+        label1=pd.DataFrame()
+        label1=data[data['label']==num_lab]
+        label1=label1.drop(columns=['label'])
+        fStats=pd.DataFrame()
+        fStats=getDataFeaturesStatistics(label1,"No")
+        fStats['label']=num_lab
+        BigfStats=BigfStats.append(fStats)
+        #display(BigfStats.tail())
+    if(RespRateInclude=="WithoutRespRate"):
+        BigfStats=BigfStats[(BigfStats['Features']!='RespRate') & (BigfStats['Features']!='SD_RR')]
+        g = ggplot(BigfStats, aes(x=x, y=yStat, color=colorFeature,group=colorFeature))+\
+            geom_point()+geom_line() +  ggtitle(dating+" Variations in features in each cluster")+\
+        scale_y_continuous(trans='log10') +\
+        scale_color_manual(values=["#0000FF", "#f71e8b", "#B22222", "#009E73", "#f74a0a","#b202f7"])
+        #scale_color_brewer(palette=1,type='qual')
+        ggsave(plot = g, filename = dating+"_WithoutRespRate", path = path)
+    elif(RespRateInclude=="WithRespRate"):
+        g = ggplot(BigfStats, aes(x=x, y=yStat, color=colorFeature,group=colorFeature))+\
+            geom_point()+geom_line() + ggtitle(dating+" Variations in features in each cluster")+\
+        scale_color_manual(values=["#0000FF", "#f71e8b", "#B22222", "#009E73", "#f74a0a","#b202f7"])
+        #scale_color_brewer(palette=1,type='qual')
+        ggsave(plot = g, filename = dating+"_WithRespRate", path = path)
+        
+    #g = ggplot(BigfStats, aes(x=x, y=yStat, color=colorFeature,group=colorFeature))+scale_y_continuous(trans='log10')+\
+    #        geom_point()+geom_line()    
+    print(g)
+    
+    
+    
+def getVariantFeatures(df_dataa):
+    Features_Cluster_Cols=['Ru_RMSSD','Ru_mDI','Ru_MADI','Ru_RMI','Ru_RespRate','Ru_RMDA'] #,'Ru_SD_RR',,
+    #target=df_data['Target'].to_list()
+    Index=df_dataa['Start_End'].to_list()
+    df_dataa=df_dataa.drop(columns=['Start_End'])
+    df_dataa['Normal'].replace(['Yes', 'No'],[1, 0], inplace=True)
+    
+    VariantFeatures=[]
+    for i in Features_Cluster_Cols:
+        print(i," ",df_dataa[i].var())
+        if(df_dataa[i].var()>0.5):
+            VariantFeatures.append(i)
+
+    print(len(VariantFeatures))
+    print(VariantFeatures)
+
+    df_variant = df_data[VariantFeatures]
+    print(df_variant.shape)
+    display(df_variant.head())
+    df_variant=df_data[Features_Cluster_Cols]
+    return(df_variant)
+
+
+import collections
+from plotnine.data import mpg
+import math
+
+#from plotnine import ggplot, aes, labs, geom_point, geom_line, geom_bar, facet_grid, facet_wrap, theme
+from plotnine import *
+def PlotStatsForLabelClusters2(data,Label,x,yStat,colorFeature,RespRateInclude,path,dating):
+    BigfStats=pd.DataFrame()
+    data['label']=Label
+    for num_lab in Counter(Label).keys():
+        label1=pd.DataFrame()
+        label1=data[data['label']==num_lab]
+        label1=label1.drop(columns=['label'])
+        fStats=pd.DataFrame()
+        fStats=getDataFeaturesStatistics(label1,"No")
+        fStats['Cluster Number']=num_lab
+        BigfStats=BigfStats.append(fStats)
+        #display(BigfStats.tail())
+    if(RespRateInclude=="WithoutRespRate"):
+        BigfStats=BigfStats[(BigfStats['Features']!='RespRate') & (BigfStats['Features']!='RMS_DA') & (BigfStats['Features']!='RestlessnessType3')]
+        g = ggplot(BigfStats, aes(x='Cluster Number', y=yStat, color=colorFeature,group=colorFeature))+\
+            geom_point()+geom_line() +  ggtitle("Mean of features in each cluster("+dating+")")+\
+        scale_color_manual(values=["#0000FF", "#f71e8b", "#B22222", "#009E73"])#, "#f74a0a","#b202f7"])
+         #theme(axis_text_x  = element_text(angle = 70, hjust = 1)) #+
+        ggsave(plot = g, filename = dating+"_WithoutRespRate", path = path)
+    elif(RespRateInclude=="WithRespRate"):
+        BigfStats=BigfStats[(BigfStats['Features']!='Mean_Prom')]
+        g = ggplot(BigfStats, aes(x='Cluster Number', y=yStat, color=colorFeature,group=colorFeature))+\
+            geom_point()+geom_line() + ggtitle("Mean of features in each cluster("+dating+")")+\
+        scale_color_manual(values=["#0000FF", "#f71e8b", "#B22222", "#009E73", "#f74a0a","#b202f7","#FF3300"])
+        ggsave(plot = g, filename = dating+"_WithRespRate", path = path)
+    elif(RespRateInclude=="Mean_Prom"):
+        BigfStats=BigfStats[(BigfStats['Features']!='RespRate') & (BigfStats['Features']!='Mean_Prom') & (BigfStats['Features']!='RMI')]
+        g = ggplot(BigfStats, aes(x='Cluster Number', y=yStat, color=colorFeature,group=colorFeature))+\
+            geom_point()+geom_line() + ggtitle("Mean of features in each cluster("+dating+")")
+        ggsave(plot = g, filename = dating+"_WithRespRate", path = path)
+        
+    #g = ggplot(BigfStats, aes(x=x, y=yStat, color=colorFeature,group=colorFeature))+scale_y_continuous(trans='log10')+\
+    #        geom_point()+geom_line()  scale_y_continuous(trans='log10')+  
+    print(g)
+    
+    
+import collections
+from plotnine.data import mpg
+import math
+
+#from plotnine import ggplot, aes, labs, geom_point, geom_line, geom_bar, facet_grid, facet_wrap, theme
+from plotnine import *
+def PlotStatsForLabelClusters_RuRMSSD(data,llabel,x,yStat,colorFeature,RespRateInclude,path,dating,selectedfeature1,color):
+    BigfStats=pd.DataFrame()
+    data['label']=llabel
+    #BigfStats=BigfStats.rename(columns={'label':'Cluster Number'})
+    for num_lab in Counter(Label).keys():
+        label1=pd.DataFrame()
+        label1=data[data['label']==num_lab]
+        label1=label1.drop(columns=['label'])
+        fStats=pd.DataFrame()
+        fStats=getDataFeaturesStatistics(label1,"No")
+        fStats['Cluster Number']=num_lab
+        BigfStats=BigfStats.append(fStats)
+        #display(BigfStats.tail())
+        #BigfStats=BigfStats.rename(columns={'label':'Cluster Number'})
+    #display(BigfStats.head())
+    
+    BigfStats=BigfStats[(BigfStats['Features']==selectedfeature1)]# | (BigfStats['Features']==selectedfeature2)] #Ru_RMDA_RMS
+    g = ggplot(BigfStats, aes(x='Cluster Number', y=yStat, color=colorFeature,group=colorFeature))+\
+            geom_point()+geom_line() +  ggtitle(dating+" Variations in features in each cluster")+\
+            scale_color_manual(values=[color])#,"#b202f7","#FF3300"])#, "#f71e8b", "#B22222", "#009E73", "#f74a0a","#b202f7","#FF3300"])
+    ggsave(plot = g, filename = dating+"_WithoutRespRate", path = path)
+    #        geom_point()+geom_line()    
+    print(g)
+    
+    #\#+ facet_wrap('Date')# + theme(axis_text_x  = element_text(angle = 70, hjust = 1)) #+
