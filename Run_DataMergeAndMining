@@ -1,1 +1,74 @@
+### What is the script about? Either write here or the some where else in the readme.
+Original Sorce: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT).ipynb
+TryRunAndAddIntoGithub: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT)-Copy1.ipynb
+
+########################################################
+############### Regular Python Packages ################
+########################################################
+import os,sys
+import numpy as np
+import pandas as pd
+from glob import glob
+#from ggplot import *
+from scipy import stats
+from collections import Counter
+from matplotlib.backends.backend_pdf import PdfPages
+
+## ggplot
+from rpy2.robjects import r
+from rpy2.robjects.lib import ggplot2
+from rpy2.robjects.packages import importr
+
+## import more plot libraries using plotnine
+from plotnine.data import mpg
+from plotnine import ggplot, aes, labs, geom_point, geom_line, geom_bar, facet_grid, facet_wrap, theme
+
+########################################################
+######## Self Built Functions Import Begins Here# ######
+########################################################
+sys.path.append("DataMergeAndMining/")
+sys.path.append("DataPreprocessingAndFeatureExtraction/")
+
+from HouseKeepingFunctions import CheckFileExistence,CreateDirectory
+from PerformClusteringFunctions import Specific_Names, Get_All_csv_pathnamesWithPatterns, Get_All_csv_pathnames, Get_All_png_pathnames, ProcessResultFilesForPyramids, PlotByDate, SubsetDataShannon, GetUnique_Dates, nested_dict, Get_Single_Way_Counted_with_CutOff, Get_Both_Way_Counted_with_CutOff, GiveFeaturesToBeCountedAndCutOff, TestKmeans, ApplyKmeans, RemoveAllFilesInADirectory, CopyFiles, getVariantFeatures, GeneratePlotsForFeatures, GeneratePlotsIntoApdfForFeatures, printConfusionMatrixAndReport, buildBoxPlot, buildBoxPlotWithGroupBy, buildBoxPlotWithGroupBySeperately, UniqueOfLabel, getDataFeaturesStatistics, CallTNSE, PlotStatsForLabelClusters, getVaryingData, CombineData, ApplyDBSCAN, shuffleLabelAsPerDescRespRate, PlotStatsForLabelClusters, getVariantFeatures
+
+#print(pd.__version__)
+#print(np.__version__)
+
+scales = importr('scales')
+
+#####################################################################################################
+########## Function to Merge the feataures from date wise extracted and stored features #############
+#####################################################################################################
+
+def getVariantFeatures(df_dataa):
+    #####################################################################################################
+    ############################## Name of the Features To be Imported ##################################
+    #####################################################################################################
+    Features_Cluster_Cols=['Ru_mDI','Ru_RespRate','Ru_RMSSD','Ru_MADI','Ru_RMI','Ru_RMDA_RMS','Restlessness3Sec','NAsign',\
+                          'A_Mean_i','A_Mean_e','ht_Mean_av','ht_Mean_max','ht_RMS_av','ht_RMS_max','Ru_A_RMSi','Ru_A_RMSe']
+
+
+    #####################################################################################################
+    ############################## Name of the Features To be Imported ##################################
+    #####################################################################################################
+    #target=df_data['Target'].to_list()
+    Index=df_dataa['Start_End'].to_list()
+    df_dataa=df_dataa.drop(columns=['Start_End'])
+    df_dataa['Normal'].replace(['Yes', 'No'],[1, 0], inplace=True)
+    
+    VariantFeatures=[]
+    for i in Features_Cluster_Cols:
+        if i=="NAsign":  #
+            VariantFeatures.append(i)#
+            continue #
+        print(i," ",df_dataa[i].var())
+        if(df_dataa[i].var()>0.5):
+            VariantFeatures.append(i)
+
+    df_variant = df_data[VariantFeatures]
+    print(df_variant.shape)
+    display(df_variant.head())
+    df_variant=df_data[Features_Cluster_Cols]
+    return(df_variant)
 
