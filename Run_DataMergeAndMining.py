@@ -149,10 +149,12 @@ for IDs in Date_dict.keys():
                     #df_data is One COMBINED FEATURE FILE for EACH ID for ALL Dates
                     df_data=df_data.append(ProcessResultFilesForPyramids(eachfile,IDs))
         
-        Images=Get_All_png_pathnames(path)
-        
+        ### Form UNIQUE INDEX for each 60 sec window  using the start_end column (having starting and ending timestamps)
         Index=df_data['Start_End'].to_list()
-        
+
+        #######################################################################################################
+        ####### Build a subset data with the relevant features mentioned in function getVariantFeatures() #####
+        ######################### df_data(full set) =>  df_Comb (subset of features)###########################
         df_Mid=pd.DataFrame()
         df_Mid=getVariantFeatures(df_data)
         df_Mid['Index']=df_data['Start_End']
@@ -160,34 +162,42 @@ for IDs in Date_dict.keys():
         df_Mid['ID']=IDs
         df_Mid['Date']=eachDate
         df_Comb=df_Comb.append(df_Mid)
-        print(">>>>>>>>########>>>>>>>>>")
-        #####display(df_Comb.head())
-        #print(np.unique(df_Comb['ID']),IDs)
-        print(">>>>>>>>########>>>>>>>>>")
-        #buildBoxPlot(df_3083,'BoxPlot_temporal2/'+IDs+'_'+eachDate+'.png')
-        #f, ax = plt.subplots(1, 1, figsize = (15, 10))
-        #calmap.yearplot(events, year=2015, ax=ax)
-        #boxplot = df_3083.boxplot(by='Date',ax=ax)
-        #plt.tight_layout()
-        #plt.show()
-        #break
-        
-        """
-        Below_03=(len(list(neg for neg in test if neg<0.3))/df_filtered.shape[0])*100
-        Greater_06=(len(list(neg for neg in test if neg>0.6))/df_filtered.shape[0])*100
-        SummedData.append([eachDate,IDs,Bet_03_06])
-        
-        #print("Bet_03_06",Bet_03_06, eachDate)
-        #print("Not_Bet_03_06",df_data.shape[0]-Bet_03_06)
-        #print("All ",Bet_03_06+Below_03+Greater_06)
-        """
-        #print("****************ID ",IDs,eachDate," Ends here*****************")
-    #break
-    
-    #break
-#df_data.head(20)
-#display(df_pyr.head())
-#SummedData
 
-pdf.close()
-           
+######################################################################################################
+# STEP 4: ################################### DROPPING NOISY WINDOWS #####################################
+#### Also this is a step to extract a statistics on Noisy 60 sec window percentages in each datase ###
+######################################################################################################
+NA=pd.DataFrame()
+
+##NAsign columns contains 'Yes' if it is noisy windows and 'no' if not
+NA=df_Comb[df_Comb['NAsign']=='yes']
+NotNA=df_Comb.shape[0]-NA.shape[0]
+print("NA: ",NA.shape[0],"\n","NotNA",NotNA,"\n","Total",df_Comb.shape[0])
+NA['ID']=NA['ID'].astype(str)
+
+print(NA.dtypes)
+for listIDs in Ids:
+    if NA['ID'].str.contains(listIDs).any():
+        NA_count=pd.DataFrame()
+        NA_count=NA[NA['ID']==listIDs]
+        print(listIDs," => Number of windows with noise:",NA_count.shape[0])
+
+######################################### DROPPING NOISY WINDOWS #####################################        
+if Noise=="Drop":
+    df_Comb=df_Comb[df_Comb['NAsign']=='no'] 
+df_Comb=df_Comb.drop(columns=['NAsign'])#,'Restlessness3Sec'])
+#DROPPING NOISY WINDOWS ENDS
+
+######################################################################################################
+# STEP 5: ################# Further merging and normalizing features #################################
+#### (a)Normalizing restlessness feature, and (b) Calulating BPI feature by combining two features ###
+######################################################################################################
+
+#### (a)Normalizing restlessness feature
+NA['Restlessness3Sec']=NA['Restlessness3Sec']/60
+NA['Restlessness3Sec']=NA['Restlessness3Sec'].round()
+print(NA['Restlessness3Sec'].mean())
+
+#### (b)Calulating BPI feature by combining two features
+df_Comb['BPI_ht_Mean_max']=df_Comb['Ru_RespRate']/df_Comb['ht_Mean_max']
+        
