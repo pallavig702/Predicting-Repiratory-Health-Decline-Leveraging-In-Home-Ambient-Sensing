@@ -200,4 +200,9 @@ print(NA['Restlessness3Sec'].mean())
 
 #### (b)Calulating BPI feature by combining two features
 df_Comb['BPI_ht_Mean_max']=df_Comb['Ru_RespRate']/df_Comb['ht_Mean_max']
+
+######################################################################################################
+### Step 6: #################### Store extracted features for all the IDs and dates into a file ######
+######################################################################################################
+df_Comb.to_csv('ExtractedFeatureFile.csv')
         
