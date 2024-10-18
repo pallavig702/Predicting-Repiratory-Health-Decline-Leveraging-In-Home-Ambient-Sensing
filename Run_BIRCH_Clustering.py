@@ -84,23 +84,23 @@ print(np.unique(dates))
 df_3054_Clust=df_3054_1.drop(columns=['ID','Date','Index'])
 display(df_3054_Clust.head())
 
-Label=BirchClustering(df_3054_Clust,6) #7 #With Noise(7), Without Noise(6)
+Clustered_data=BirchClustering(df_3054_Clust,6) #7 #With Noise(7), Without Noise(6) # This number 6 got by building dendrogram of data.
 display(df_3054_Clust.head())
 
 #Counter
 print(Counter(Label))
 
-label=shuffleLabelAsPerDescRespRate(df_3054_Clust,Label)
+Clustered_data_renamed_label=shuffleLabelAsPerDescRespRate(df_3054_Clust,Clustered_data) #For visualization purpose labels were renamed.
 display(df_3054_Clust.head())
 
-Unique_Labels=list((Counter(label)).keys())
-print(sorted(Counter(label).items()))
+Unique_Labels=list((Counter(Clustered_data_renamed_label)).keys())
+print(sorted(Counter(Clustered_data_renamed_label).items()))
 
-label_df=pd.DataFrame()
-label_df=pd.DataFrame.from_dict(Counter(label), orient='index').T
-label_df['date']=i_dates
+labelled_df=pd.DataFrame()
+labelled_df=pd.DataFrame.from_dict(Counter(Clustered_data_renamed_label), orient='index').T
+labelled_df['date']=i_dates
 
-label_df.to_csv(LabelCount, mode='a', index=False, header=False)
+labelled_df.to_csv(LabelCount, mode='a', index=False, header=False)
 
 
 
@@ -154,4 +154,5 @@ def CallTNSE2(data, Label,titleName,date,path,alpha):#,Res_ID):
 
 ####################### Call For BULDING TSNE #######################
 alpha=1
-CallTNSE2(df_3054_Clust, label, "Clustered data",i_dates,Resultpath,alpha)
+CallTNSE2(df_3054_Clust, labelled_df, "Clustered data",i_dates,Resultpath,alpha)
+#CallTNSE2(df_3054_Clust, label, "Clustered data",i_dates,Resultpath,alpha)
