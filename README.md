@@ -9,7 +9,7 @@ This is divided into three main steps:<br>
 ![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
 
 ## (1) Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
-**Scripts to Run**: **Run_FeatureExtractor.py** is the main script to run for feature extraction.
+**Step 1: script to run**: **Run_FeatureExtractor.py** is the main script to run for feature extraction.
 
 **Run_FeatureExtractor.py** calls **DataRetrievalCycle.py** to orchestrate data retrieval and signal processing. **DataRetrievalCycle.py** further calls **ExtractFeature.py** and pass the processed signal data to this function which then segments the data into 60 min time windows and extract features and stores the features in files with respective date and time stamps.
 
