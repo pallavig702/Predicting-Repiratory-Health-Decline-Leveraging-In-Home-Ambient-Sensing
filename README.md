@@ -3,9 +3,10 @@
 
 This is divided into three main steps:<br>
 ```diff
-- (1) Data Preprocessing (cleaning and feature engineering)
-- (2) Data Mining using BIRCH
-- (3) Build predictive model (Random Forest) 
+-(1) Data Preprocessing (cleaning and feature engineering)
+-(2) Data Mining using BIRCH
+-(3) Build predictive model (Random Forest) 
+```
 
 ## Data Source: Americare aging in place facilities hrdraulic bed sensor data
 ![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
