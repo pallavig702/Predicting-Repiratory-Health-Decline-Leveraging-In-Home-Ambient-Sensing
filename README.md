@@ -1,9 +1,11 @@
 # Semi Suprevised Machine Learning Approach to predict Respiratory Health Decline, unobtrusively using in-home ambient bed sensor.
 
+
 This is divided into three main steps:<br>
-(1) Data Preprocessing (cleaning and feature engineering)<br>
-(2) Data Mining using BIRCH<br>
-(3) Build predictive model (Random Forest) 
+```diff
+- (1) Data Preprocessing (cleaning and feature engineering)
+- (2) Data Mining using BIRCH
+- (3) Build predictive model (Random Forest) 
 
 ## Data Source: Americare aging in place facilities hrdraulic bed sensor data
 ![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
