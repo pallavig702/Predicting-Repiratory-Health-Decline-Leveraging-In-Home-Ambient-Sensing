@@ -1,5 +1,6 @@
 ###########################################################################################
-# This script is part of Step 2: Data Mining/Clustering of 8-D feature vectors (as mentioned in Readme).
+# This script is part of Step 2-part2: Data Mining/Clustering of 8-D feature vectors (as mentioned in Readme).
+# This script includes the following steps:
 # (i)imports the necessary features,
 # (ii) creates a dendrogram for visualization of hierarchy in data, and
 # (iii) uses BIRCH clustering to group the data.
