@@ -1,6 +1,20 @@
 ### What is the script about? Either write here or the some where else in the readme.
-Original Sorce: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT).ipynb
-TryRunAndAddIntoGithub: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT)-Copy1.ipynb
+#Original Sorce: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT).ipynb
+#TryRunAndAddIntoGithub: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT)-Copy1.ipynb
+
+#########################################################################################################
+# This script is part of Step 2-part1: Data Mining/Clustering of 8-D feature vectors (as mentioned in Readme).
+##This script includes the following steps:
+# (i) Importing and combining features for the specified resident ID and selected dates.
+# (ii) Removing noisy data and performing feature engineering by creating and combining new features to facilitate dimensionality reduction.
+# (iii) Consolidating the processed data into a single unified file
+#########################################################################################################
+
+#########################################################################################################
+# INPUT: Feeds from output of script ->
+# OUTPUT: Feeds into script -> 
+#########################################################################################################
+
 
 ########################################################
 ############### Regular Python Packages ################
