@@ -1,3 +1,12 @@
+###########################################################################################
+# This script is part of Step 2: Data Mining/Clustering of 8-D feature vectors (as mentioned in Readme).
+# (i)imports the necessary features,
+# (ii) creates a dendrogram for visualization of hierarchy in data, and
+# (iii) uses BIRCH clustering to group the data.
+# (iv) The clustered data is further visualized in a 2D projection space using t-SNE plots.
+###########################################################################################
+
+
 import time
 import os, sys
 import pandas as pd
