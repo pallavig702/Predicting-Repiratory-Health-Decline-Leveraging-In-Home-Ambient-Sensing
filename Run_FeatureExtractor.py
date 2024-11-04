@@ -1,9 +1,13 @@
 #########################################################################################################
 # This script is part of STEP 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data (as mentioned in Readme).
 ##This script includes the following steps:
-# (i) Importing and combining features for the specified resident ID and selected dates.
-# (ii) Removing noisy data and performing feature engineering by creating and combining new features to facilitate dimensionality reduction.
-# (iii) Consolidating the processed data into a single unified file
+# (i) Data import From POSTGRES DB and perform data prepocessing like 
+# (ii)extraction of specific frequency signals using butter worth signal frequency filter, 
+# (iii)peak and valley detection,
+# (iv)noisy peak detection,
+# (v)split the data into shorter 60-sec windows and extract feature from each 60-sec window and store them datewise.
+
+#For each day script processes data for 2 hours window chunks in loop until 24 hours  to avoid blocking the memory and avoid out of memory issues.
 #########################################################################################################
 
 #########################################################################################################
