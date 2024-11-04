@@ -1,3 +1,18 @@
+#########################################################################################################
+# This script is part of STEP 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data (as mentioned in Readme).
+##This script includes the following steps:
+# (i) Importing and combining features for the specified resident ID and selected dates.
+# (ii) Removing noisy data and performing feature engineering by creating and combining new features to facilitate dimensionality reduction.
+# (iii) Consolidating the processed data into a single unified file
+#########################################################################################################
+
+#########################################################################################################
+# INPUT: Feeds on original signal data from postgres DB.
+# OUTPUT: Extracts features for given resident ID, for specific dates and stores them datewise for each resident ID. 
+#########################################################################################################
+
+
+
 ########################################################
 ############### Regular Python Packages ################
 ########################################################
