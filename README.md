@@ -13,9 +13,11 @@ This is divided into three main steps:<br>
 
 ## Step 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
 **Step 1: Generate Features**: **Run_FeatureExtractor.py** is the main script to run for feature extraction.
-E - EXTRACT - 
-T - TRANSFORM - 
-L - LOAD 
+```diff
+-E - EXTRACT - 
+-T - TRANSFORM - 
+-L - LOAD
+```
 **Run_FeatureExtractor.py** calls **DataRetrievalCycle.py** to orchestrate data retrieval and signal processing. **DataRetrievalCycle.py** further calls **ExtractFeature.py** and pass the processed signal data to this function which then segments the data into 60 min time windows and extract features and stores the features in files with respective date and time stamps.
 
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/Data_preprocessing.png)
