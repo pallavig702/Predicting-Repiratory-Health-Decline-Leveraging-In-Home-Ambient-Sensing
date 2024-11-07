@@ -17,12 +17,13 @@ This is divided into three main steps:<br>
 ```diff
 -E - EXTRACT
 ```
-  * Extracted data from POSTGRES DB - [DataPreprocessingAndFeatureExtraction/GetData.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/GetData.py) 
+  * Extracted data from **POSTGRES DB** - [DataPreprocessingAndFeatureExtraction/GetData.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/GetData.py) 
 ```diff
 -T - TRANSFORM -
 ```
-  * Apply Butter worth filter to extract the signal component with a frequency cutoff of 0.7Hz from a complex signal - [DataPreprocessingAndFeatureExtraction/ApplyFilter.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/ApplyFilter.py) 
-  * Apply Moving Average Curve algorithm for noise detection - [DataPreprocessingAndFeatureExtraction/MAC_Function3 .py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/MAC_Function3%20.py)
+  * Apply **Butter Worth filter** to extract the signal component with a frequency cutoff of 0.7Hz from a complex signal - [DataPreprocessingAndFeatureExtraction/ApplyFilter.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/ApplyFilter.py) 
+  * Apply **Moving Average Curve algorithm** for noise detection - [DataPreprocessingAndFeatureExtraction/MAC_Function3 .py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/MAC_Function3%20.py)
+  * 
 ```diff
 -L - LOAD
 ```
