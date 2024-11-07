@@ -14,7 +14,7 @@ This is divided into three main steps:<br>
 ## Step 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
 **Step 1: Generate Features**: **Run_FeatureExtractor.py** is the main script to run for feature extraction.
 ```diff
--E - EXTRACT - 
+-E - EXTRACT - DataPreprocessingAndFeatureExtraction/GetData.py - Extracted data from POSTGRES DB 
 -T - TRANSFORM - 
 -L - LOAD
 ```
