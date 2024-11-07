@@ -13,7 +13,6 @@
 # OUTPUT: Yields -> Processed Raw Signal Data and feeds processed data into feature extractor package
 #########################################################################################################
 
-# (v) Call the feature extraction
 ########################################################
 ############### Regular Python Packages ################
 ########################################################
