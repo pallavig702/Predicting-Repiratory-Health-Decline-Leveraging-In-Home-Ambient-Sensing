@@ -1,11 +1,17 @@
-###########################################################################################
-# This script is part of Step 2-part2: Data Mining/Clustering of 8-D feature vectors (as mentioned in Readme).
+####################### Data Mining/Clustering of 8-D feature vectors #############################
+# This script is part of Step 2.2: Run BIRCH CLustering.
 # This script includes the following steps:
 # (i)imports the necessary features,
 # (ii) creates a dendrogram for visualization of hierarchy in data, and
 # (iii) uses BIRCH clustering to group the data.
 # (iv) The clustered data is further visualized in a 2D projection space using t-SNE plots.
-###########################################################################################
+###################################################################################################
+
+#########################################################################################################
+# INPUT: Feeds on output of script -> Run_FeatureExtractor.py
+# OUTPUT: Feeds results into script -> TrainTheModel.py
+#########################################################################################################
+
 
 
 import time
