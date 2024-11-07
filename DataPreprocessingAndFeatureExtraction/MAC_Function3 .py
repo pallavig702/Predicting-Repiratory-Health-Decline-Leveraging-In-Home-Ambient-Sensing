@@ -1,13 +1,30 @@
 ########################################################################################
 ################# Citations: DOI: 10.1109/MeMeA52024.2021.9478677 ######################
 ########################################################################################
-#Purpose: Noise Detection
-#Input - Signal Dataframe with timestamps
+#PURPOSE: NOISE DETECTION
+########################################################################################
+######### This package mainly was used for noise detection in the signal data  #########
+########################################################################################
+## This package script performs pre-processing in signal data
+# (i) Applies Moving mean to get moving average curve (MAC)
+# (ii) Get the up and down intercepts
+# (iii) Cleans the data for signal to start and end with peaks
+# (iv) Find Peaks And Valleys
+# (v) Finding Heights of peaks
+# (vi) Measuring the height of the peaks above the moving average curve
+# (vii) Label the nosi peaks
+#########################################################################################################
+# INPUT: Feeds on -> #Input - Signals with timestamps
+# Called as package from script - DataPreprocessingAndFeatureExtraction/DataRetrievalCycle.py
+# OUTPUT: Yields -> Signal Data with timestamps labelled with noisy peaks and valleys
+#########################################################################################################
+
 #Returning a dataframe containing below mentioned columns
 ## resp_pvs contains: Contains the values -1 (representing valleys), 1 (representing peaks), Nan (noise), -0.33(Apnea peaks) and 0.33 (hypopnea peaks)
 ##'resp_pv_vals':contains the signal values for each of the valley peak apnea peaks etc.
 ##'resp_pv_hghts': Contains the heights of the peaks calculated
 ##'resp_pv_dt_IE': time stamps corresponding to each of the peak, valley etc.
+
 
 import math
 import numpy as np
