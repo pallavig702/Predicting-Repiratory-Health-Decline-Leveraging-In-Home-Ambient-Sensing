@@ -1,3 +1,19 @@
+
+## Called as package from script - Run_FeatureExtractor.py
+## This package script performs pre-processing in signal data
+# (i) Import data from postgres database
+# (ii) Checks if there is too much missing data. if yes then drops the time window
+# (iii) Apply butterworth filter to signal
+# (iv) Apply Noise detection using MAC algorithm
+# (v) Find peaks and valleys in signal
+# (vi) Calculate the Restlessness in signal segments
+
+#########################################################################################################
+# INPUT: Feeds on -> Raw Signal Data
+# OUTPUT: Yields -> Processed Raw Signal Data and feeds processed data into feature extractor package
+#########################################################################################################
+
+# (v) Call the feature extraction
 ########################################################
 ############### Regular Python Packages ################
 ########################################################
