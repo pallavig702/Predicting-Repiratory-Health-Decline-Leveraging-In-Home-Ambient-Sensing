@@ -4,12 +4,12 @@
 ######### All the processing begins after data is extracted from this package ##########
 ########################################################################################
 
-## Called as package from script - Run_FeatureExtractor.py
 ## This package script performs pre-processing in signal data
 # (i) Gets the Access POSTGRES DB (Cedentials) 
 # (ii) Postgres DB Querying for Signal Data Extraction
 #########################################################################################################
 # INPUT: Feeds on -> Access credentials to get into postgres
+# Called as package from script - DataPreprocessingAndFeatureExtraction/DataRetrievalCycle.py
 # OUTPUT: Yields -> Signal Data pulled from postgres db
 #########################################################################################################
 
