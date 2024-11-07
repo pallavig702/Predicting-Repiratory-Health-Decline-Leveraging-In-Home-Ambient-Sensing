@@ -1,6 +1,17 @@
 ####################################################################################
 #### This package contains the filters applied to composite bed sensor signal ######
 ####################################################################################
+
+## This package script performs pre-processing in signal data
+# (i) Applies butter worth filter to extract the signal component with a frequency cutoff of 0.7Hz from a complex signal
+# containing multiple components at different frequencies.
+#########################################################################################################
+# INPUT: Feeds on -> Raw Signal Data
+# Called as package from script - DataPreprocessingAndFeatureExtraction/DataRetrievalCycle.py
+# OUTPUT: Yields -> Respiration component of the Raw Signal Data
+#########################################################################################################
+
+
 import random
 import numpy as np
 import pandas as pd
