@@ -2,8 +2,8 @@
 #Original Sorce: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT).ipynb
 #TryRunAndAddIntoGithub: https://europa.dsa.missouri.edu/user/pg3fy/notebooks/IR/COPD/NEW_WORK_For_IE_Ratio_AND_FeatureExtraction_AND_Clustering_PythonPeakDetection/Perform%20Clustering%20Experiments-RuhanFeatures-3054Only-Functionalized-TestFiltering(FINAL%20RIGHT)-Copy1.ipynb
 
-#########################################################################################################
-# This script is part of Step 2-part1: Data Mining/Clustering of 8-D feature vectors (as mentioned in Readme).
+################# Feature processing - Data Mining of 8-D feature vectors###############################
+# This script is part of Step 2.1: Feature processing (as mentioned in Readme).
 ##This script includes the following steps:
 # (i) Importing and combining features for the specified resident ID and selected dates.
 # (ii) Removing noisy data and performing feature engineering by creating and combining new features to facilitate dimensionality reduction.
@@ -11,8 +11,8 @@
 #########################################################################################################
 
 #########################################################################################################
-# INPUT: Feeds from output of script ->
-# OUTPUT: Feeds into script -> 
+# INPUT: Feeds on output of script -> Run_FeatureExtractor.py
+# OUTPUT: Feeds into script -> Run_BIRCH_Clustering.py
 #########################################################################################################
 
 
