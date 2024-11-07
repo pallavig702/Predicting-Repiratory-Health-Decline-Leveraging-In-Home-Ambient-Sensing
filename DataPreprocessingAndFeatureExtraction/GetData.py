@@ -1,7 +1,23 @@
+##### #        # ##########   # # # 
+#       #    #       #        #     #   
+#####     #          #        # # #
+#       #   #        #        # #
+##### #       #      #        #   #
+
 ########################################################################################
 ######### This package mainly was used to extract Sensor data Stored at Postgres Db ####
 ######### All the processing begins after data is extracted from this package ##########
 ########################################################################################
+
+## Called as package from script - Run_FeatureExtractor.py
+## This package script performs pre-processing in signal data
+# (i) Gets the Access POSTGRES DB (Cedentials) 
+# (ii) Postgres DB Querying for Signal Data Extraction
+#########################################################################################################
+# INPUT: Feeds on -> Access credentials to get into postgres
+# OUTPUT: Yields -> Signal Data pulled from postgres db
+#########################################################################################################
+
 import os
 import random
 import datetime
