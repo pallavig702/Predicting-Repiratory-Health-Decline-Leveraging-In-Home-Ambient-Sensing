@@ -7,6 +7,7 @@ This is divided into three main steps:<br>
 -Step 2: Data Mining using BIRCH
 -Step 3: Build predictive model (Random Forest) 
 ```
+[Link Text](https://example.com)
 
 ## Data Source: Americare aging in place facilities hrdraulic bed sensor data
 ![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
@@ -14,10 +15,18 @@ This is divided into three main steps:<br>
 ## Step 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
 **Step 1: Generate Features**: **Run_FeatureExtractor.py** is the main script to run for feature extraction.
 ```diff
--E - EXTRACT - DataPreprocessingAndFeatureExtraction/GetData.py - Extracted data from POSTGRES DB 
--T - TRANSFORM - 
+-E - EXTRACT
+```
+  * Extracted data from POSTGRES DB - [DataPreprocessingAndFeatureExtraction/GetData.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/GetData.py) 
+```diff
+-T - TRANSFORM -
+```
+  * Apply Butter worth filter to extract the signal component with a frequency cutoff of 0.7Hz from a complex signal - [DataPreprocessingAndFeatureExtraction/ApplyFilter.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/ApplyFilter.py) 
+  * Apply Moving Average Curve algorithm for noise detection - [DataPreprocessingAndFeatureExtraction/MAC_Function3 .py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/MAC_Function3%20.py)
+```diff
 -L - LOAD
 ```
+
 **Run_FeatureExtractor.py** calls **DataRetrievalCycle.py** to orchestrate data retrieval and signal processing. **DataRetrievalCycle.py** further calls **ExtractFeature.py** and pass the processed signal data to this function which then segments the data into 60 min time windows and extract features and stores the features in files with respective date and time stamps.
 
 ![test](https://github.com/pallavig702/Predictive-Modeling---Hydraulic-Bed-Sensor-Data-/blob/main/Images/Data_preprocessing.png)
