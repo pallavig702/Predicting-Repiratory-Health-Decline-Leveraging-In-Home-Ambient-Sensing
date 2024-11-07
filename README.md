@@ -23,7 +23,7 @@ This is divided into three main steps:<br>
 ```
   * Apply **Butter Worth filter** to extract the signal component with a frequency cutoff of 0.7Hz from a complex signal - [DataPreprocessingAndFeatureExtraction/ApplyFilter.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/ApplyFilter.py) 
   * Apply **Moving Average Curve algorithm** for noise detection - [DataPreprocessingAndFeatureExtraction/MAC_Function3 .py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/DataPreprocessingAndFeatureExtraction/MAC_Function3%20.py)
-  * 
+  * Find **Peaks** and **valleys** in the waveform signal - [DataPreprocessingAndFeatureExtraction/PeakDetection.py](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/edit/main/DataPreprocessingAndFeatureExtraction/PeakDetection.py)
 ```diff
 -L - LOAD
 ```
