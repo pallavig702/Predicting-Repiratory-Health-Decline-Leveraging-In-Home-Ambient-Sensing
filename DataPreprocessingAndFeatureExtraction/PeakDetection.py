@@ -1,10 +1,20 @@
-##Purpose: Detecting peaks and valleys with some cacliberations to avoid minor pressure signals noise
-##Input: Pandas dataframe Signal Data with time stamps
-##OutPut: Pandas datarame with the following columns:
-### resp_pvs contains the values -1 (representing valleys), 1 (representing peaks)
-##'resp_pv_vals' contains the signal values for each of the valley peak etc.
-##'resp_pv_dt_IE' contains time stamps corresponding to each of the peak, valley etc.
-###'INDEX': contains the index of the peak and valley in a given time window.
+
+########################################################################################
+######### ##Purpose: Detecting peaks and valleys with some cacliberations to avoid 
+############ minor pressure signals noise  
+########################################################################################
+## This package script performs pre-processing in signal data
+# (i) Find peaks and their index using python package find_peaks
+# (ii) Calculate Valleys and their index based on peak detected
+#########################################################################################################
+# INPUT: Feeds on -> #Input - Pandas dataframe Signal Data with time stamps
+# Called as package from script - DataPreprocessingAndFeatureExtraction/DataRetrievalCycle.py
+# OUTPUT: Yields -> Pandas datarame with the following columns:
+    ## resp_pvs contains the values -1 (representing valleys), 1 (representing peaks)
+    ##'resp_pv_vals' contains the signal values for each of the valley peak etc.
+    ##'resp_pv_dt_IE' contains time stamps corresponding to each of the peak, valley etc.
+    ###'INDEX': contains the index of the peak and valley in a given time window.
+#########################################################################################################
 
 import pandas as pd
 import plotly.graph_objects as go
