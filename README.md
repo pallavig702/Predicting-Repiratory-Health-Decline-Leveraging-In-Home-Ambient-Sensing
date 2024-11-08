@@ -7,18 +7,9 @@ This is divided into three main steps:<br>
 -Step 2: Data Mining using BIRCH
 -Step 3: Build predictive model (Random Forest) 
 ```
-[Link Text](https://example.com)
 
 ## Data Source: Americare aging in place facilities hrdraulic bed sensor data
 ![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
-
-
-# My Project
-
-Here is an image with adjusted size:
-
-<img src="[https://external-image-source.com/image.jpg](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)" alt="Description" width="300"/>
-
 
 
 ## Step 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
