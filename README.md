@@ -10,7 +10,13 @@ This is divided into three main steps:<br>
 [Link Text](https://example.com)
 
 ## Data Source: Americare aging in place facilities hrdraulic bed sensor data
+<img src="[https://example.com/image.png](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)" alt="Sample Image" width="500">
 ![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
+
+<div style="width:300px;">
+  <img src="[https://external-image-source.com/image.jpg](https://example.com/image.png](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)" alt="Description">
+</div>
+
 
 ## Step 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
 **Step 1: Generate Features**: **Run_FeatureExtractor.py** is the main script to run for feature extraction calling self made packages for ETL.
