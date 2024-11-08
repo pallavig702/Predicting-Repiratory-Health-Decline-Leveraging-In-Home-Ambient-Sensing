@@ -13,7 +13,7 @@ This is divided into three main steps:<br>
 ![test](https://github.com/pallavig702/Predicting-Repiratory-Health-Decline-Leveraging-In-Home-Ambient-Sensing/blob/main/Images/DataSource.png)
 
 ## Step 1: Data Preprocessing (cleaning and feature engineering) of signal data from Hydraulic Bed Sensor Data.<br>
-**Step 1: Generate Features**: **Run_FeatureExtractor.py** is the main script to run for feature extraction.
+**Step 1: Generate Features**: **Run_FeatureExtractor.py** is the main script to run for feature extraction calling self made packages for ETL.
 ```diff
 -E - EXTRACT
 ```
